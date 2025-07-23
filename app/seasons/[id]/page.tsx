@@ -2,8 +2,14 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import fs from "fs";
 import path from "path";
+import { mdxComponents } from "@/mdx-components";
+import { Metadata } from "next";
 
-import { useMDXComponents } from "@/mdx-components"; // ⬅️ подключаем твои компоненты
+type Props = {
+  params: {
+    id: string;
+  };
+};
 
 export async function generateStaticParams() {
   const dir = path.join(process.cwd(), "content", "seasons");
@@ -13,8 +19,14 @@ export async function generateStaticParams() {
     .map((file) => ({ id: file.replace(/\.mdx$/, "") }));
 }
 
-export default async function SeasonPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  return {
+    title: `Сезон ${params.id}`,
+  };
+}
+
+export default async function SeasonPage({ params }: Props) {
+  const { id } = await params;
   const filePath = path.join(process.cwd(), "content", "seasons", `${id}.mdx`);
 
   if (!fs.existsSync(filePath)) {
@@ -22,11 +34,10 @@ export default async function SeasonPage({ params }: { params: { id: string } })
   }
 
   const mdxContent = await fs.promises.readFile(filePath, "utf8");
-  const components = useMDXComponents();
 
   return (
     <article className="prose mx-auto px-4 py-6">
-      <MDXRemote source={mdxContent} components={components} />
+      <MDXRemote source={mdxContent} components={mdxComponents} />
     </article>
   );
 }

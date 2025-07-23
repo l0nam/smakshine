@@ -46,7 +46,7 @@ export default function Features() {
 
       <div className="grid gap-3 mt-4 sm:grid-cols-2">
         {features.map((feature, index) => (
-          <Card key={index}>
+          <Card key={index} className="shadow-none">
             <CardHeader>
                 <Image
                   src={feature.src ?? "https://cdn.dribbble.com/userupload/39824990/file/original-96232e9475f7b8c25a53d822960263b4.jpg"}
