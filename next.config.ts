@@ -4,10 +4,7 @@ import createMDX from '@next/mdx';
 const nextConfig: NextConfig = {
   pageExtensions: ['mdx', 'ts', 'tsx', 'md'],
   experimental: {
-    mdxRs: false
-  },
-  images: {
-    domains: ['cdn.dribbble.com'],
+    mdxRs: true
   },
 };
 
