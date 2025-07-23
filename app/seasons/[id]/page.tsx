@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function SeasonPage({ params }: Props) {
-  const { id } = await params;
+  const { id } = params; // Удаляем await, так как params — это объект
   const filePath = path.join(process.cwd(), "content", "seasons", `${id}.mdx`);
 
   if (!fs.existsSync(filePath)) {
