@@ -1,4 +1,4 @@
-import "@/app/styles/globals.css";
+import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { ThemeProvider } from "next-themes";
@@ -55,7 +55,7 @@ export default async function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Header seasonLinks={seasonLinks} />
+          <Header />
           <main className="flex-grow">{children}</main>
           <Footer />
         </ThemeProvider>

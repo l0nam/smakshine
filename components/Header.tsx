@@ -31,11 +31,7 @@ export function useHasMounted() {
   return mounted;
 }
 
-export const Header = ({
-  seasonLinks,
-}: {
-  seasonLinks: { name: string; href: string }[];
-}) => {
+export const Header = () => {
   const path = usePathname();
   const hasMounted = useHasMounted();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -48,7 +44,7 @@ export const Header = ({
   const HeaderLinks = [
     { label: "Главная", href: "/" },
     { label: "Вики", href: "https://wiki.smakshine.com/" },
-    { label: "Сезоны", href: "/seasons" },
+    { label: "Карта", href: "/map" },
   ];
 
   return (
@@ -84,49 +80,21 @@ export const Header = ({
               <NavigationMenuList key={path}>
                 {HeaderLinks.map((link, index) => (
                   <NavigationMenuItem key={index}>
-                    {link.label === "Сезоны" ? (
-                      <>
-                        <NavigationMenuTrigger>
-                          {link.label}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                          <ul key={index * index}>
-                            {seasonLinks.map((subLink) => (
-                              <li key={subLink.href}>
-                                <NavigationMenuLink asChild>
-                                  <Link
-                                    href={subLink.href}
-                                    className={`${
-                                      path === subLink.href
-                                        ? buttonVariants({ variant: "default" })
-                                        : buttonVariants({ variant: "ghost" })
-                                    } w-full flex items-start`}
-                                  >
-                                    {subLink.name}
-                                  </Link>
-                                </NavigationMenuLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </NavigationMenuContent>
-                      </>
-                    ) : (
-                      <NavigationMenuLink
-                        asChild
-                        className={navigationMenuTriggerStyle()}
+                    <NavigationMenuLink
+                      asChild
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      <Link
+                        href={link.href}
+                        className={`${
+                          path === link.href
+                            ? buttonVariants({ variant: "default" })
+                            : buttonVariants({ variant: "ghost" })
+                        }`}
                       >
-                        <Link
-                          href={link.href}
-                          className={`${
-                            path === link.href
-                              ? buttonVariants({ variant: "default" })
-                              : buttonVariants({ variant: "ghost" })
-                          }`}
-                        >
-                          {link.label}
-                        </Link>
-                      </NavigationMenuLink>
-                    )}
+                        {link.label}
+                      </Link>
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
                 ))}
               </NavigationMenuList>
