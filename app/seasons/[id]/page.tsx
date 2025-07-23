@@ -3,11 +3,8 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import fs from "fs";
 import path from "path";
 import { mdxComponents } from "@/mdx-components";
-import { Metadata, NextPage } from "next";
-
-type Props = {
-  params: { id: string };
-};
+import { Metadata } from "next";
+import { use } from "react";
 
 export async function generateStaticParams() {
   const dir = path.join(process.cwd(), "content", "seasons");
@@ -17,15 +14,8 @@ export async function generateStaticParams() {
     .map((file) => ({ id: file.replace(/\.mdx$/, "") }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = params;
-  return {
-    title: `Сезон ${id}`,
-  };
-}
-
-const SeasonPage: NextPage<Props> = async ({ params }) => {
-  const { id } = params; // params уже объект, await не нужен
+export default async function SeasonPage({params}: {params: Promise<{ id: string }>}) {
+  const { id } = use(params);
   const filePath = path.join(process.cwd(), "content", "seasons", `${id}.mdx`);
 
   if (!fs.existsSync(filePath)) {
@@ -39,6 +29,4 @@ const SeasonPage: NextPage<Props> = async ({ params }) => {
       <MDXRemote source={mdxContent} components={mdxComponents} />
     </article>
   );
-};
-
-export default SeasonPage;
+}
