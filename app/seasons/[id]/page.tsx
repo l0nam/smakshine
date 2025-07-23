@@ -14,7 +14,7 @@ export async function generateStaticParams() {
 }
 
 export default async function SeasonPage({ params }: { params: { id: string } }) {
-  const { id } = await params;
+  const { id } = params;
   const filePath = path.join(process.cwd(), "content", "seasons", `${id}.mdx`);
 
   if (!fs.existsSync(filePath)) {
@@ -22,7 +22,7 @@ export default async function SeasonPage({ params }: { params: { id: string } })
   }
 
   const mdxContent = await fs.promises.readFile(filePath, "utf8");
-  const components = useMDXComponents(); // ⬅️ получаем все кастомные компоненты
+  const components = useMDXComponents();
 
   return (
     <article className="prose mx-auto px-4 py-6">
